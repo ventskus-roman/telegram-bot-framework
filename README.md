@@ -3,15 +3,18 @@ Simple framework for creation bots for Telegram on Java
 
 You need just create entry point. For example:
 
+```java
 public class Application {
 
     public static void main(String[] args) {
         Framework.init(new FrameworkParams("BOT_NAME", "BOT_TOKEN"));
     }
 }
+```
 
 Then you need to create Controller for each of your bot command. For example, this is Controller for /test command
 
+```java
 @BotController(value = "/last")
 public class SimpleController implements Controller {
 
@@ -27,6 +30,7 @@ public class SimpleController implements Controller {
         }
     }
 }
+```
 
 Controller must be annotated with @@BotController and implements Controller interface
 
