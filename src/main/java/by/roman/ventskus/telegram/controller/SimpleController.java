@@ -22,9 +22,9 @@ public class SimpleController implements Controller {
     @Override
     public Response process(Request request, Map<Parameter, String> params) {
         if (params.get(firstName) == null) {
-            return new AppealInParameterResponse("What is your first name?", firstName, request.getCommand());
+            return new AppealInParameterResponse("What is your first name?", firstName, request.getCommand(), request.getUser());
         } else {
-            return new SingleMessageResponse("Hello, " + params.get(firstName) + "!", request.getCommand());
+            return new SingleMessageResponse("Hello, " + params.get(firstName) + "!", request.getCommand(), request.getUser());
         }
     }
 }

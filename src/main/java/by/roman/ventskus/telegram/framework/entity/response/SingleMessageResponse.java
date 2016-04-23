@@ -1,6 +1,7 @@
 package by.roman.ventskus.telegram.framework.entity.response;
 
 import by.roman.ventskus.telegram.framework.entity.Command;
+import by.roman.ventskus.telegram.framework.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,4 +14,5 @@ public class SingleMessageResponse implements OneMessageResponse {
 
     private String text;
     private Command command;
+    private User user;
 }

@@ -1,7 +1,6 @@
 package by.roman.ventskus.telegram.framework.entity.response;
 
 import by.roman.ventskus.telegram.framework.entity.Command;
-import by.roman.ventskus.telegram.framework.entity.Parameter;
 import by.roman.ventskus.telegram.framework.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,11 +10,8 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class AppealInParameterResponse implements OneMessageResponse {
-
-    private String text;
-    private Parameter requestedParameter;
-    private Command command;
-    private User user;
-
+public class PhotoResponse implements Response {
+    String fileName;
+    Command command;
+    User user;
 }

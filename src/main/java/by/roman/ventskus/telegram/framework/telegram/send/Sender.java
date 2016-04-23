@@ -1,6 +1,7 @@
 package by.roman.ventskus.telegram.framework.telegram.send;
 
 import by.roman.ventskus.telegram.framework.entity.response.OneMessageResponse;
+import by.roman.ventskus.telegram.framework.entity.response.PhotoResponse;
 import by.roman.ventskus.telegram.framework.entity.response.Response;
 import by.roman.ventskus.telegram.framework.telegram.TelegramAPI;
 
@@ -20,6 +21,9 @@ public class Sender {
     public void send(Response response) {
         if (response instanceof OneMessageResponse) {
             singleMessageSendStrategy.send(response);
+        } else if (response instanceof PhotoResponse) {
+            PhotoResponse photoResponse = (PhotoResponse) response;
+            telegramAPI.sendPhoto(photoResponse.getFileName(), photoResponse.getUser());
         }
     }
 }

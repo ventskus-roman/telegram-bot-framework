@@ -1,6 +1,6 @@
 package by.roman.ventskus.telegram.framework.processor.request;
 
-import by.roman.ventskus.telegram.exception.NoMappingFoundException;
+import by.roman.ventskus.telegram.framework.exception.NoMappingFoundException;
 import by.roman.ventskus.telegram.framework.config.BotController;
 import by.roman.ventskus.telegram.framework.config.Controller;
 import by.roman.ventskus.telegram.framework.config.HistoryManager;

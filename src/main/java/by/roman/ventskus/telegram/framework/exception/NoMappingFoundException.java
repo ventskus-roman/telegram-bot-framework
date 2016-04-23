@@ -1,4 +1,4 @@
-package by.roman.ventskus.telegram.exception;
+package by.roman.ventskus.telegram.framework.exception;
 
 /**
  * Created by Roman Ventskus on 23.04.2016.
