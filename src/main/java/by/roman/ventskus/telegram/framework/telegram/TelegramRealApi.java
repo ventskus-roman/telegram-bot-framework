@@ -5,7 +5,6 @@ import by.roman.ventskus.telegram.framework.entity.User;
 import by.roman.ventskus.telegram.framework.entity.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.SendMessage;
 import org.telegram.telegrambots.api.methods.SendPhoto;
 import org.telegram.telegrambots.api.objects.ReplyKeyboardMarkup;
@@ -37,27 +36,27 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
     public abstract String getBotToken();
 
     public void send(String text, User user, ReplyKeyboardMarkup replyKeyboardMarkup) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setText(text);
-        sendMessage.setChatId(user.getId());
-        if (replyKeyboardMarkup != null) {
-            sendMessage.setReplayMarkup(replyKeyboardMarkup);
-        }
         try {
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setText(text);
+            sendMessage.setChatId(user.getId());
+            if (replyKeyboardMarkup != null) {
+                sendMessage.setReplayMarkup(replyKeyboardMarkup);
+            }
             sendMessage(sendMessage);
-        } catch (TelegramApiException e) {
+        } catch (Exception e) {
             LOGGER.error("Sending exception", e);
         }
     }
 
     public void sendPhoto(String fileName, User user) {
-        SendPhoto sendPhoto = new SendPhoto();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy_hh:mm:ss");
-        sendPhoto.setNewPhoto(fileName, simpleDateFormat.format(new Date()) + ".png");
-        sendPhoto.setChatId(user.getId());
         try {
+            SendPhoto sendPhoto = new SendPhoto();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy_hh:mm:ss");
+            sendPhoto.setNewPhoto(fileName, simpleDateFormat.format(new Date()) + ".png");
+            sendPhoto.setChatId(user.getId());
             sendPhoto(sendPhoto);
-        } catch (TelegramApiException e) {
+        } catch (Exception e) {
             LOGGER.error("Sending photo exception", e);
         }
     }
