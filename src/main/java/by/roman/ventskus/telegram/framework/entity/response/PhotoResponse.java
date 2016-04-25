@@ -4,6 +4,7 @@ import by.roman.ventskus.telegram.framework.entity.Command;
 import by.roman.ventskus.telegram.framework.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.telegram.telegrambots.api.objects.ReplyKeyboardMarkup;
 
 /**
  * Created by Roman Ventskus on 23.04.2016.
@@ -11,7 +12,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PhotoResponse implements Response {
-    String fileName;
-    Command command;
-    User user;
+    private String fileName;
+    private Command command;
+    private User user;
+    private ReplyKeyboardMarkup replyKeyboardMarkup;
 }

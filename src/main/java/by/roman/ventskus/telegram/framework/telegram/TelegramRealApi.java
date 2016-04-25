@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.SendMessage;
 import org.telegram.telegrambots.api.methods.SendPhoto;
+import org.telegram.telegrambots.api.objects.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
@@ -35,10 +36,13 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
     @Override
     public abstract String getBotToken();
 
-    public void send(String text, User user) {
+    public void send(String text, User user, ReplyKeyboardMarkup replyKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText(text);
         sendMessage.setChatId(user.getId());
+        if (replyKeyboardMarkup != null) {
+            sendMessage.setReplayMarkup(replyKeyboardMarkup);
+        }
         try {
             sendMessage(sendMessage);
         } catch (TelegramApiException e) {

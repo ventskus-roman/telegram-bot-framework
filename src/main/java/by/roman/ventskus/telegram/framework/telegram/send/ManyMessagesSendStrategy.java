@@ -14,6 +14,6 @@ public class ManyMessagesSendStrategy extends SendStrategy<ManyMessagesResponse>
 
     @Override
     void send(ManyMessagesResponse response) {
-        response.getMessages().forEach(s -> getTelegramAPI().send(s, response.getUser()));
+        response.getMessages().forEach(s -> getTelegramAPI().send(s, response.getUser(), response.getReplyKeyboardMarkup()));
     }
 }

@@ -14,6 +14,6 @@ public class SingleMessageSendStrategy extends SendStrategy<OneMessageResponse> 
 
     @Override
     public void send(OneMessageResponse response) {
-        getTelegramAPI().send(response.getText(), response.getUser());
+        getTelegramAPI().send(response.getText(), response.getUser(), response.getReplyKeyboardMarkup());
     }
 }
