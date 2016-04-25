@@ -32,6 +32,15 @@ public class SimpleController implements Controller {
 }
 ```
 
-Controller must be annotated with @@BotController and implements Controller interface
+Controller must be annotated with @BotController and implements Controller interface
+
+Also you can use awesome ReplyKeyboardMarkupBuilder, that make possible easy creation of ReplyKeyboarMarkup (see https://core.telegram.org/bots/api#replykeyboardmarkup)
+
+Example of usege:
+```java
+ReplyKeyboardMarkup markup = new ReplyKeyboardMarkupBuilder().addRow("Today", "Tomorrow").oneTimeKeyboad().build();
+Response response = new SimpleManyMessageResponse(buildMessages(), request.getCommand(),request.getUser(), markup);
+```
+This code will build for you menu with two options "Today" and "Tomorrow"
 
 Based on https://github.com/rubenlagus/TelegramBots
