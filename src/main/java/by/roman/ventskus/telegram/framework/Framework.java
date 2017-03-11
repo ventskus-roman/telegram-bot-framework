@@ -3,6 +3,7 @@ package by.roman.ventskus.telegram.framework;
 import by.roman.ventskus.telegram.framework.config.HistoryManager;
 import by.roman.ventskus.telegram.framework.entity.Command;
 import by.roman.ventskus.telegram.framework.entity.FrameworkParams;
+import by.roman.ventskus.telegram.framework.entity.User;
 import by.roman.ventskus.telegram.framework.entity.request.Request;
 import by.roman.ventskus.telegram.framework.entity.response.Response;
 import by.roman.ventskus.telegram.framework.processor.request.CommandRequestProcessor;
@@ -10,13 +11,18 @@ import by.roman.ventskus.telegram.framework.processor.request.RequestProcessor;
 import by.roman.ventskus.telegram.framework.processor.request.TextRequestProcessor;
 import by.roman.ventskus.telegram.framework.telegram.TelegramRealApi;
 import by.roman.ventskus.telegram.framework.telegram.send.Sender;
-import org.telegram.telegrambots.TelegramApiException;
+import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 /**
  * Created by Roman Ventskus on 23.04.2016.
  */
 public abstract class Framework {
+
+    static {
+        ApiContextInitializer.init();
+    }
 
 
     private static final String COMMAND_PREFIX = "/";
@@ -57,7 +63,7 @@ public abstract class Framework {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             telegramBotsApi.registerBot(telegramAPI);
-        } catch (TelegramApiException e) {
+        } catch (TelegramApiRequestException e) {
             throw new RuntimeException(e);
         }
     }
@@ -75,6 +81,8 @@ public abstract class Framework {
         } else {
             response = textProcessor.process(request);
         }
+        response.setUser(request.getUser());
+        response.setCommand(request.getCommand());
         return response;
     }
 

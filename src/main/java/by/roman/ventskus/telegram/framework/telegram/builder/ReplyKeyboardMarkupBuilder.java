@@ -1,6 +1,7 @@
 package by.roman.ventskus.telegram.framework.telegram.builder;
 
-import org.telegram.telegrambots.api.objects.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public class ReplyKeyboardMarkupBuilder {
 
     private ReplyKeyboardMarkup markup;
-    private List<List<String>> keyboard;
+    private List<KeyboardRow> keyboard;
 
     public ReplyKeyboardMarkupBuilder() {
         markup = new ReplyKeyboardMarkup();
@@ -20,7 +21,7 @@ public class ReplyKeyboardMarkupBuilder {
     }
 
     public ReplyKeyboardMarkupBuilder addRow(String... buttons) {
-        List<String> row = new ArrayList<>();
+        KeyboardRow row = new KeyboardRow();
         if (buttons != null) {
             for (String button : buttons) {
                 row.add(button);

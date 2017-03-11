@@ -28,7 +28,7 @@ public class Sender {
             manyMessagesSendStrategy.send(response);
         } else if (response instanceof PhotoResponse) {
             PhotoResponse photoResponse = (PhotoResponse) response;
-            telegramAPI.sendPhoto(photoResponse.getFileName(), photoResponse.getUser());
+            telegramAPI.sendPhoto(photoResponse.getFileName(), photoResponse.getUser(), photoResponse.getInputStream());
         }
     }
 }

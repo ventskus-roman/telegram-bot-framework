@@ -1,14 +1,20 @@
 package by.roman.ventskus.telegram.framework.entity.response;
 
 import by.roman.ventskus.telegram.framework.entity.Command;
-import org.telegram.telegrambots.api.objects.ReplyKeyboardMarkup;
+import by.roman.ventskus.telegram.framework.entity.User;
+import lombok.Getter;
+import lombok.Setter;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 /**
  * Created by Roman Ventskus on 23.04.2016.
  */
 
-public interface Response {
+@Getter
+@Setter
+public abstract class Response {
 
-    Command getCommand();
-    ReplyKeyboardMarkup getReplyKeyboardMarkup();
+    protected Command command;
+    protected ReplyKeyboardMarkup replyKeyboardMarkup;
+    protected User user;
 }

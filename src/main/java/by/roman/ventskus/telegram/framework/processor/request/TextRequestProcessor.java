@@ -31,6 +31,6 @@ public class TextRequestProcessor implements RequestProcessor {
                 }
             }
         }
-        return new SingleMessageResponse("I can`t understand you, sorry. Lets see commands list", null, request.getUser());
+        return new SingleMessageResponse("I can`t understand you, sorry. Lets see commands list");
     }
 }
