@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by romanventskus on 11.03.17.
  */
-@BotController(value = "/start")
+//@BotController(value = "start")
 public class StartController implements Controller {
 
     @Override

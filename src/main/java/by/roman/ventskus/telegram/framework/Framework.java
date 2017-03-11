@@ -9,8 +9,15 @@ import by.roman.ventskus.telegram.framework.entity.response.Response;
 import by.roman.ventskus.telegram.framework.processor.request.CommandRequestProcessor;
 import by.roman.ventskus.telegram.framework.processor.request.RequestProcessor;
 import by.roman.ventskus.telegram.framework.processor.request.TextRequestProcessor;
+import by.roman.ventskus.telegram.framework.router.CommandRouter;
 import by.roman.ventskus.telegram.framework.telegram.TelegramRealApi;
 import by.roman.ventskus.telegram.framework.telegram.send.Sender;
+import com.vdurmont.emoji.EmojiLoader;
+import com.vdurmont.emoji.EmojiManager;
+import com.vdurmont.emoji.EmojiParser;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
@@ -88,11 +95,10 @@ public abstract class Framework {
 
 
     private boolean isCommand(String text) {
-        return text.startsWith(COMMAND_PREFIX);
+        return CommandRouter.isRoute(text);
     }
 
     public Response redirectToCommand(Request request, Command command) {
-        request.setText(COMMAND_PREFIX + command.getText());
         return buildResponse(request);
     }
 }

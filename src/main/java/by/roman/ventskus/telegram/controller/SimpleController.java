@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by Roman Ventskus on 23.04.2016.
  */
-@BotController(value = "/test")
+//@BotController(value = "/test")
 public class SimpleController implements Controller {
 
     private Parameter firstName = new Parameter("firstName");
@@ -23,8 +23,10 @@ public class SimpleController implements Controller {
     public Response process(Request request, Map<Parameter, String> params) {
         if (params.get(firstName) == null) {
             return new AppealInParameterResponse("What is your first name?", firstName);
+        } else if (params.get(secondName) == null) {
+            return new AppealInParameterResponse("What is your second name?", secondName);
         } else {
-            return new SingleMessageResponse("Hello, " + params.get(firstName) + "!");
+            return new SingleMessageResponse("Hello, " + params.get(firstName) + " " + params.get(secondName) + "!");
         }
     }
 }
