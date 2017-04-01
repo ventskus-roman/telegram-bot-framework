@@ -20,9 +20,12 @@ public class CommandRequestProcessor implements RequestProcessor {
     @Autowired
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private CommandRouter commandRouter;
+
     @Override
     public Response process(Request request) {
-        Class<? extends Controller> clazz = CommandRouter.getRoute(request.getText());
+        Class<? extends Controller> clazz = commandRouter.getRoute(request.getText());
         try {
             Map<Parameter, Object> params = HistoryManager.getInstance().getParams(request);
             Controller controller = getController(clazz);

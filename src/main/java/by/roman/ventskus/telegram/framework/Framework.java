@@ -27,7 +27,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 /**
  * Created by Roman Ventskus on 23.04.2016.
  */
-public abstract class Framework {
+public class Framework {
 
     static {
         ApiContextInitializer.init();
@@ -41,6 +41,9 @@ public abstract class Framework {
     @Autowired
     private TextRequestProcessor textProcessor;
 
+    @Autowired
+    private CommandRouter commandRouter;
+
     private Sender sender;
 
     public static Framework getInstance() {
@@ -50,7 +53,7 @@ public abstract class Framework {
         return instance;
     }
 
-    public static void init(FrameworkParams params) {
+    public Framework(FrameworkParams params) {
         if (instance == null) {
             TelegramRealApi telegramRealApi = new TelegramRealApi() {
                 @Override
@@ -62,21 +65,23 @@ public abstract class Framework {
                 public String getBotToken() {
                     return params.getBotToken();
                 }
+
+                @Override
+                public CommandRouter getCommandRouter() {
+                    return commandRouter;
+                }
             };
-            instance = new Framework(telegramRealApi) {
-            };
+            telegramRealApi.setFramework(this);
+
+            sender = new Sender(telegramRealApi);
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+            try {
+                telegramBotsApi.registerBot(telegramRealApi);
+            } catch (TelegramApiRequestException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             throw new RuntimeException("Framework already initialized!");
-        }
-    }
-
-    private Framework(TelegramRealApi telegramAPI) {
-        sender = new Sender(telegramAPI);
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(telegramAPI);
-        } catch (TelegramApiRequestException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -100,11 +105,12 @@ public abstract class Framework {
 
 
     private boolean isCommand(String text) {
-        return CommandRouter.isRoute(text);
+        return commandRouter.isRoute(text);
     }
 
     public Response redirectToCommand(Request request, Command command) {
         request.setText(command.getText());
+        request.setIsCommand(commandRouter.isRoute(command.getText()));
         return buildResponse(request);
     }
 }

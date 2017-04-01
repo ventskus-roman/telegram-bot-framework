@@ -3,8 +3,12 @@ package by.roman.ventskus.telegram.framework.telegram;
 import by.roman.ventskus.telegram.framework.Framework;
 import by.roman.ventskus.telegram.framework.entity.User;
 import by.roman.ventskus.telegram.framework.entity.request.Request;
+import by.roman.ventskus.telegram.framework.router.CommandRouter;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Update;
@@ -18,9 +22,12 @@ import java.io.InputStream;
 /**
  * Created by Roman Ventskus on 23.04.2016.
  */
+@Getter
+@Setter
 public abstract class TelegramRealApi extends TelegramLongPollingBot implements TelegramAPI {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TelegramRealApi.class);
+    private Framework framework;
 
     public void onUpdateReceived(Update update) {
         String text = null;
@@ -32,8 +39,8 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
             text = update.getCallbackQuery().getData();
             chatId = update.getCallbackQuery().getFrom().getId();
         }
-        Request request = new Request(new User(chatId), text);
-        Framework.getInstance().process(request);
+        Request request = new Request(new User(chatId), text, getCommandRouter().isRoute(text));
+        framework.process(request);
     }
 
     @Override
@@ -41,6 +48,8 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
 
     @Override
     public abstract String getBotToken();
+
+    public abstract CommandRouter getCommandRouter();
 
     public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup) {
         try {

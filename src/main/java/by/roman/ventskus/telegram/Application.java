@@ -13,6 +13,6 @@ public class Application {
     private static final String BOT_TOKEN = "";
 
     public static void main(String[] args) {
-        Framework.init(new FrameworkParams(BOT_USERNAME, BOT_TOKEN));
+        new Framework(new FrameworkParams(BOT_USERNAME, BOT_TOKEN));
     }
 }

@@ -8,11 +8,16 @@ import by.roman.ventskus.telegram.framework.entity.request.Request;
 import by.roman.ventskus.telegram.framework.entity.response.AppealInParameterResponse;
 import by.roman.ventskus.telegram.framework.entity.response.Response;
 import by.roman.ventskus.telegram.framework.entity.response.SingleMessageResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Roman Ventskus on 23.04.2016.
  */
 public class TextRequestProcessor implements RequestProcessor {
+
+    @Autowired
+    private Framework framework;
+
     @Override
     public Response process(Request request) {
         HistoryManager historyManager = HistoryManager.getInstance();
@@ -23,11 +28,11 @@ public class TextRequestProcessor implements RequestProcessor {
                 Parameter parameter = appeal.getRequestedParameter();
                 Command command = appeal.getCommand();
                 historyManager.putParam(request.getUser(), command, parameter, request.getText());
-                return Framework.getInstance().redirectToCommand(request, command);
+                return framework.redirectToCommand(request, command);
             } else {
                 Command command = response.getCommand();
                 if (command != null) {
-                    return Framework.getInstance().redirectToCommand(request, command);
+                    return framework.redirectToCommand(request, command);
                 }
             }
         }

@@ -15,16 +15,13 @@ public class Request {
 
     private User user;
     private String text;
+    private Boolean isCommand;
 
     public Command getCommand() {
-        if (isCommand()) {
+        if (isCommand) {
             return new Command(text.replace("/", ""));
         }
         return null;
     }
 
-
-    public boolean isCommand() {
-        return CommandRouter.isRoute(text);
-    }
 }
