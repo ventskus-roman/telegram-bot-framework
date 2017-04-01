@@ -12,11 +12,11 @@ import java.util.Map;
 /**
  * Created by romanventskus on 11.03.17.
  */
-//@BotController(value = "start")
+@BotController(value = "start")
 public class StartController implements Controller {
 
     @Override
-    public Response process(Request request, Map<Parameter, String> params) {
+    public Response process(Request request, Map<Parameter, Object> params) {
         return new SingleMessageResponse("Привет! Я постер-бот!");
     }
 }

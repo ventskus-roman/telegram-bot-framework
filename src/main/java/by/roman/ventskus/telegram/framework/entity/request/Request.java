@@ -2,6 +2,7 @@ package by.roman.ventskus.telegram.framework.entity.request;
 
 import by.roman.ventskus.telegram.framework.entity.Command;
 import by.roman.ventskus.telegram.framework.entity.User;
+import by.roman.ventskus.telegram.framework.router.CommandRouter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -24,6 +25,6 @@ public class Request {
 
 
     public boolean isCommand() {
-        return text.startsWith("/");
+        return CommandRouter.isRoute(text);
     }
 }

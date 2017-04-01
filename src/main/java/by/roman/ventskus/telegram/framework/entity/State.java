@@ -12,11 +12,11 @@ import java.util.Map;
 @Data
 public class State {
 
-    private final Map<Command, Map<Parameter, String>> commandStates = new HashMap<>();
+    private final Map<Command, Map<Parameter, Object>> commandStates = new HashMap<>();
     private Response lastResponse;
 
-    public Map<Parameter, String> getParams(Command command) {
-        Map<Parameter, String> params = commandStates.get(command);
+    public Map<Parameter, Object> getParams(Command command) {
+        Map<Parameter, Object> params = commandStates.get(command);
         if (params == null) {
             params = new HashMap<>();
             commandStates.put(command, params);

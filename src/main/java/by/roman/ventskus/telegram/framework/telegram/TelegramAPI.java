@@ -1,6 +1,7 @@
 package by.roman.ventskus.telegram.framework.telegram;
 
 import by.roman.ventskus.telegram.framework.entity.User;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 import java.io.InputStream;
@@ -10,7 +11,7 @@ import java.io.InputStream;
  */
 public interface TelegramAPI {
 
-    public void send(String text, User user, ReplyKeyboardMarkup replyKeyboardMarkup);
+    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup);
 
     public void sendPhoto(String fileName, User user, InputStream inputStream);
 }

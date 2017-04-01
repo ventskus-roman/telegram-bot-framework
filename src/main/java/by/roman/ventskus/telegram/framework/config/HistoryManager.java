@@ -29,7 +29,7 @@ public class HistoryManager {
     }
 
 
-    public Map<Parameter, String> getParams(Request request) {
+    public Map<Parameter, Object> getParams(Request request) {
         State state = getState(request.getUser());
         return Optional.ofNullable(state.getParams(request.getCommand())).orElse(new HashMap<>());
     }

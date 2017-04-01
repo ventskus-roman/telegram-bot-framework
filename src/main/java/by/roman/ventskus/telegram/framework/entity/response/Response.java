@@ -4,6 +4,7 @@ import by.roman.ventskus.telegram.framework.entity.Command;
 import by.roman.ventskus.telegram.framework.entity.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 /**
@@ -15,6 +16,6 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 public abstract class Response {
 
     protected Command command;
-    protected ReplyKeyboardMarkup replyKeyboardMarkup;
+    protected ReplyKeyboard replyKeyboardMarkup;
     protected User user;
 }

@@ -20,7 +20,7 @@ public class SimpleController implements Controller {
     private Parameter secondName = new Parameter("secondName");
 
     @Override
-    public Response process(Request request, Map<Parameter, String> params) {
+    public Response process(Request request, Map<Parameter, Object> params) {
         if (params.get(firstName) == null) {
             return new AppealInParameterResponse("What is your first name?", firstName);
         } else if (params.get(secondName) == null) {

@@ -11,6 +11,6 @@ import java.util.Map;
  */
 public interface Controller {
 
-    Response process(Request request, Map<Parameter, String> params);
+    Response process(Request request, Map<Parameter, Object> params);
 
 }

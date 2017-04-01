@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
@@ -22,9 +23,16 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
     private static final Logger LOGGER = LoggerFactory.getLogger(TelegramRealApi.class);
 
     public void onUpdateReceived(Update update) {
-        String text = update.getMessage().getText();
-        Long chatId = update.getMessage().getChatId();
-        Request request = new Request(new User(chatId + ""), text);
+        String text = null;
+        Integer chatId = null;
+        if (update.getMessage() != null) {
+            text = update.getMessage().getText();
+            chatId = update.getMessage().getFrom().getId();
+        } else {
+            text = update.getCallbackQuery().getData();
+            chatId = update.getCallbackQuery().getFrom().getId();
+        }
+        Request request = new Request(new User(chatId), text);
         Framework.getInstance().process(request);
     }
 
@@ -34,11 +42,12 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
     @Override
     public abstract String getBotToken();
 
-    public void send(String text, User user, ReplyKeyboardMarkup replyKeyboardMarkup) {
+    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup) {
         try {
             SendMessage sendMessage = new SendMessage();
+            sendMessage.enableMarkdown(true);
             sendMessage.setText(text);
-            sendMessage.setChatId(user.getId());
+            sendMessage.setChatId(user.getId() + "");
             if (replyKeyboardMarkup != null) {
                 sendMessage.setReplyMarkup(replyKeyboardMarkup);
             }
@@ -52,7 +61,7 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
         try {
             SendPhoto sendPhoto = new SendPhoto();
             sendPhoto.setNewPhoto(fileName, inputStream);
-            sendPhoto.setChatId(user.getId());
+            sendPhoto.setChatId(user.getId() + "");
             sendPhoto(sendPhoto);
         } catch (Exception e) {
             LOGGER.error("Sending photo exception", e);

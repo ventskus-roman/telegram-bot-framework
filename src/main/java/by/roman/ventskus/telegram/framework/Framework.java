@@ -18,6 +18,8 @@ import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
@@ -31,11 +33,14 @@ public abstract class Framework {
         ApiContextInitializer.init();
     }
 
-
-    private static final String COMMAND_PREFIX = "/";
     private static Framework instance;
-    private RequestProcessor commandProcessor = new CommandRequestProcessor();
-    private RequestProcessor textProcessor = new TextRequestProcessor();
+
+    @Autowired
+    private CommandRequestProcessor commandProcessor;
+
+    @Autowired
+    private TextRequestProcessor textProcessor;
+
     private Sender sender;
 
     public static Framework getInstance() {
@@ -99,6 +104,7 @@ public abstract class Framework {
     }
 
     public Response redirectToCommand(Request request, Command command) {
+        request.setText(command.getText());
         return buildResponse(request);
     }
 }
