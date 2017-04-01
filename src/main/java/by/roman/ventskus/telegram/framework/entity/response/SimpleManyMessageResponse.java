@@ -2,6 +2,7 @@ package by.roman.ventskus.telegram.framework.entity.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.List;
 
@@ -14,5 +15,10 @@ public class SimpleManyMessageResponse extends ManyMessagesResponse {
 
     public SimpleManyMessageResponse(List<String> messages) {
         this.messages = messages;
+    }
+
+    public SimpleManyMessageResponse(List<String> messages, InlineKeyboardMarkup markup) {
+        this(messages);
+        setReplyKeyboardMarkup(markup);
     }
 }
