@@ -1,16 +1,17 @@
 package by.roman.ventskus.telegram.framework.entity.response;
 
 import by.roman.ventskus.telegram.framework.telegram.builder.InlineKeyboarMarkupBuilder;
-import lombok.Data;
+import lombok.*;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 /**
  * Created by Roman Ventskus on 23.04.2016.
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
 public class SingleMessageResponse extends OneMessageResponse {
-
-    private String text;
 
     public SingleMessageResponse(String text) {
         this.text = text;

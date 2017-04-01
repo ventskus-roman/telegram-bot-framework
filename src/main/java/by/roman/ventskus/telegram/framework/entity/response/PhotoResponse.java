@@ -13,4 +13,9 @@ import java.io.InputStream;
 public class PhotoResponse extends Response {
     private String fileName;
     private InputStream inputStream;
+
+    @Override
+    public String toString() {
+        return fileName;
+    }
 }

@@ -10,4 +10,9 @@ import lombok.Setter;
 @Setter
 public abstract class OneMessageResponse extends Response {
     protected String text;
+
+    @Override
+    public String toString() {
+        return text;
+    }
 }
