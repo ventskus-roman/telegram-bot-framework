@@ -10,7 +10,7 @@ import lombok.extern.log4j.Log4j;
 public class Application {
 
     private static final String BOT_USERNAME = "PostogramBot";
-    private static final String BOT_TOKEN = "325309774:AAG17T46jJAlT-obvY8cmYphWmoAY2c67XM";
+    private static final String BOT_TOKEN = "";
 
     public static void main(String[] args) {
         Framework.init(new FrameworkParams(BOT_USERNAME, BOT_TOKEN));
