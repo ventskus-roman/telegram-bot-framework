@@ -5,6 +5,7 @@ import by.roman.ventskus.telegram.framework.entity.Command;
 import by.roman.ventskus.telegram.framework.entity.FrameworkParams;
 import by.roman.ventskus.telegram.framework.entity.User;
 import by.roman.ventskus.telegram.framework.entity.request.Request;
+import by.roman.ventskus.telegram.framework.entity.response.RedirectResponse;
 import by.roman.ventskus.telegram.framework.entity.response.Response;
 import by.roman.ventskus.telegram.framework.processor.request.CommandRequestProcessor;
 import by.roman.ventskus.telegram.framework.processor.request.RequestProcessor;
@@ -15,6 +16,7 @@ import by.roman.ventskus.telegram.framework.telegram.send.Sender;
 import com.vdurmont.emoji.EmojiLoader;
 import com.vdurmont.emoji.EmojiManager;
 import com.vdurmont.emoji.EmojiParser;
+import lombok.Getter;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
@@ -44,6 +46,7 @@ public class Framework {
     @Autowired
     private CommandRouter commandRouter;
 
+    @Getter
     private Sender sender;
 
     public static Framework getInstance() {
@@ -100,6 +103,9 @@ public class Framework {
         }
         response.setUser(request.getUser());
         response.setCommand(request.getCommand());
+        if (response instanceof RedirectResponse) {
+            return buildResponse(new Request(response.getUser(), ((RedirectResponse) response).getNewCommand(), true));
+        }
         return response;
     }
 
