@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -32,14 +33,22 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
     public void onUpdateReceived(Update update) {
         String text = null;
         Integer chatId = null;
+        Long forwardedChannelId = null;
+        String forwardedChannelName = null;
         if (update.getMessage() != null) {
             text = update.getMessage().getText();
             chatId = update.getMessage().getFrom().getId();
+            Chat forwardedChannel = update.getMessage().getForwardFromChat();
+            if (forwardedChannel != null) {
+                forwardedChannelId = forwardedChannel.getId();
+                forwardedChannelName = forwardedChannel.getTitle();
+            }
         } else {
             text = update.getCallbackQuery().getData();
             chatId = update.getCallbackQuery().getFrom().getId();
         }
-        Request request = new Request(new User(chatId), text, getCommandRouter().isRoute(text));
+        Request request = new Request(new User(new Long(chatId)), text, getCommandRouter().isRoute(text), forwardedChannelId,
+                forwardedChannelName);
         framework.process(request);
     }
 
@@ -51,12 +60,12 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
 
     public abstract CommandRouter getCommandRouter();
 
-    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup) {
+    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup, boolean enableMarkdown) {
         try {
             SendMessage sendMessage = new SendMessage();
-            sendMessage.enableMarkdown(true);
+            sendMessage.enableMarkdown(enableMarkdown);
             sendMessage.setText(text);
-            sendMessage.setChatId(user.getId() + "");
+            sendMessage.setChatId(user.getId());
             if (replyKeyboardMarkup != null) {
                 sendMessage.setReplyMarkup(replyKeyboardMarkup);
             }

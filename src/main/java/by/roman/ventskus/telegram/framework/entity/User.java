@@ -10,5 +10,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class User {
 
-    private Integer id;
+    private Long id;
 }

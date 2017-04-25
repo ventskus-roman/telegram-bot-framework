@@ -20,10 +20,10 @@ public class ManyMessagesSendStrategy extends SendStrategy<ManyMessagesResponse>
         if (messages.size() > 1) {
             messages.stream()
                     .limit(Math.max(0, messages.size() - 1))
-                    .forEach(s -> getTelegramAPI().send(s, response.getUser(), null));
+                    .forEach(s -> getTelegramAPI().send(s, response.getUser(), null, response.isEnableMarkdown()));
         }
         messages.stream()
                 .skip(Math.max(0, messages.size() - 1))
-                .forEach(s -> getTelegramAPI().send(s, response.getUser(), response.getReplyKeyboardMarkup()));
+                .forEach(s -> getTelegramAPI().send(s, response.getUser(), response.getReplyKeyboardMarkup(), response.isEnableMarkdown()));
     }
 }

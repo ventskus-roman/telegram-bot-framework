@@ -46,6 +46,9 @@ public class CommandRouter {
     }
 
     public boolean isRoute(String text) {
+        if (text == null) {
+            return false;
+        }
         return mapping.containsKey(removeSlashAndEmoji(text));
     }
 

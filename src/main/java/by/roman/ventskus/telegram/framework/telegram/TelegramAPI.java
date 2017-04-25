@@ -11,7 +11,7 @@ import java.io.InputStream;
  */
 public interface TelegramAPI {
 
-    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup);
+    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup, boolean enableMarkdown);
 
     public void sendPhoto(String fileName, User user, InputStream inputStream);
 }

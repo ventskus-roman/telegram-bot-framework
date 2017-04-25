@@ -18,4 +18,5 @@ public abstract class Response {
     protected Command command;
     protected ReplyKeyboard replyKeyboardMarkup;
     protected User user;
+    protected boolean enableMarkdown = true;
 }

@@ -103,9 +103,6 @@ public class Framework {
         }
         response.setUser(request.getUser());
         response.setCommand(request.getCommand());
-        if (response instanceof RedirectResponse) {
-            return buildResponse(new Request(response.getUser(), ((RedirectResponse) response).getNewCommand(), true));
-        }
         return response;
     }
 

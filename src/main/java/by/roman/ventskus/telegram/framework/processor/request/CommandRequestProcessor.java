@@ -4,6 +4,7 @@ import by.roman.ventskus.telegram.framework.config.Controller;
 import by.roman.ventskus.telegram.framework.config.HistoryManager;
 import by.roman.ventskus.telegram.framework.entity.Parameter;
 import by.roman.ventskus.telegram.framework.entity.request.Request;
+import by.roman.ventskus.telegram.framework.entity.response.RedirectResponse;
 import by.roman.ventskus.telegram.framework.entity.response.Response;
 import by.roman.ventskus.telegram.framework.router.CommandRouter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class CommandRequestProcessor implements RequestProcessor {
             Controller controller = getController(clazz);
             Response response = controller.process(request, params);
             HistoryManager.getInstance().registerResponse(request.getUser(), response);
+            if (response instanceof RedirectResponse) {
+                Request newRequest = new Request(request.getUser(), ((RedirectResponse) response).getNewCommand(), true);
+                return process(newRequest);
+            }
             return response;
         } catch (InstantiationException e) {
             throw new RuntimeException(e);

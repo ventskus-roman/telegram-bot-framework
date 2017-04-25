@@ -16,6 +16,14 @@ public class Request {
     private User user;
     private String text;
     private Boolean isCommand;
+    private Long forwardedChannelId;
+    private String forwardedChannelName;
+
+    public Request(User user, String text, Boolean isCommand) {
+        this.user = user;
+        this.text = text;
+        this.isCommand = isCommand;
+    }
 
     public Command getCommand() {
         if (isCommand) {
