@@ -19,4 +19,5 @@ public abstract class Response {
     protected ReplyKeyboard replyKeyboardMarkup;
     protected User user;
     protected boolean enableMarkdown = true;
+    protected boolean enableWebPreview = true;
 }

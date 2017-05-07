@@ -18,6 +18,7 @@ public class Request {
     private Boolean isCommand;
     private Long forwardedChannelId;
     private String forwardedChannelName;
+    private String forwardedChannelUsername;
 
     public Request(User user, String text, Boolean isCommand) {
         this.user = user;

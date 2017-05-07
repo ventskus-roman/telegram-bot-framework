@@ -21,12 +21,15 @@ public class SingleMessageSendStrategy extends SendStrategy<OneMessageResponse> 
                 .fixedLength(4096)
                 .splitToList(response.getText());
         if (messages.size() <= 1) {
-            getTelegramAPI().send(response.getText(), response.getUser(), response.getReplyKeyboardMarkup(), response.isEnableMarkdown());
+            getTelegramAPI().send(response.getText(), response.getUser(), response.getReplyKeyboardMarkup(), response.isEnableMarkdown(),
+                    response.isEnableWebPreview());
         } else {
             for (int i = 0; i < messages.size() - 1; i++) {
-                getTelegramAPI().send(messages.get(i), response.getUser(), null, response.isEnableMarkdown());
+                getTelegramAPI().send(messages.get(i), response.getUser(), null, response.isEnableMarkdown(),
+                        response.isEnableWebPreview());
             }
-            getTelegramAPI().send(messages.get(messages.size() - 1), response.getUser(), response.getReplyKeyboardMarkup(), response.isEnableMarkdown());
+            getTelegramAPI().send(messages.get(messages.size() - 1), response.getUser(), response.getReplyKeyboardMarkup(),
+                    response.isEnableMarkdown(), response.isEnableWebPreview());
         }
     }
 }

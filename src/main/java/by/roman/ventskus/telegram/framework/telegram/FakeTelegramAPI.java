@@ -11,8 +11,14 @@ import java.io.InputStream;
  */
 public class FakeTelegramAPI implements TelegramAPI {
     @Override
-    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup, boolean enableMarkdown) {
+    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup, boolean enableMarkdown,
+                     boolean enableWebPreview) {
         System.out.println(text);
+    }
+
+    @Override
+    public Integer getMembersCount(Long chatId) {
+        return null;
     }
 
     @Override

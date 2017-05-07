@@ -37,6 +37,14 @@ public class InlineKeyboarMarkupBuilder {
         return this;
     }
 
+    public InlineKeyboarMarkupBuilder addRowWithOneButtonLink(String text, String link) {
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setUrl(link);
+        button.setText(text);
+        addRow(button);
+        return this;
+    }
+
     public InlineKeyboarMarkupBuilder addRowWithTwoButtons(String firstButtonText, String firstButtonData,
                                                            String secondButtonText, String secondButtonData) {
         InlineKeyboardButton firstButton = new InlineKeyboardButton();

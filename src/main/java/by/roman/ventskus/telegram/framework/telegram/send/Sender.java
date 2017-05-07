@@ -31,4 +31,8 @@ public class Sender {
             telegramAPI.sendPhoto(photoResponse.getFileName(), photoResponse.getUser(), photoResponse.getInputStream());
         }
     }
+
+    public Integer getMembersCount(Long chatId) {
+        return telegramAPI.getMembersCount(chatId);
+    }
 }

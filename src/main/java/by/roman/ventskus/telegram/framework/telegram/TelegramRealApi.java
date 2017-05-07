@@ -8,13 +8,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.telegram.telegrambots.api.methods.groupadministration.GetChatMemberCount;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import java.io.InputStream;
@@ -33,22 +32,26 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
     public void onUpdateReceived(Update update) {
         String text = null;
         Integer chatId = null;
+        String username = null;
         Long forwardedChannelId = null;
         String forwardedChannelName = null;
+        String forwardedChannelUsername = null;
         if (update.getMessage() != null) {
             text = update.getMessage().getText();
             chatId = update.getMessage().getFrom().getId();
+            username = update.getMessage().getFrom().getUserName();
             Chat forwardedChannel = update.getMessage().getForwardFromChat();
             if (forwardedChannel != null) {
                 forwardedChannelId = forwardedChannel.getId();
                 forwardedChannelName = forwardedChannel.getTitle();
+                forwardedChannelUsername = forwardedChannel.getUserName();
             }
         } else {
             text = update.getCallbackQuery().getData();
             chatId = update.getCallbackQuery().getFrom().getId();
         }
-        Request request = new Request(new User(new Long(chatId)), text, getCommandRouter().isRoute(text), forwardedChannelId,
-                forwardedChannelName);
+        Request request = new Request(new User(new Long(chatId), username), text, getCommandRouter().isRoute(text), forwardedChannelId,
+                forwardedChannelName, forwardedChannelUsername);
         framework.process(request);
     }
 
@@ -60,12 +63,18 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
 
     public abstract CommandRouter getCommandRouter();
 
-    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup, boolean enableMarkdown) {
+    public void send(String text, User user, ReplyKeyboard replyKeyboardMarkup, boolean enableMarkdown,
+                     boolean enableWebPreview) {
         try {
             SendMessage sendMessage = new SendMessage();
             sendMessage.enableMarkdown(enableMarkdown);
             sendMessage.setText(text);
             sendMessage.setChatId(user.getId());
+            if (enableWebPreview) {
+                sendMessage.enableWebPagePreview();
+            } else {
+                sendMessage.disableWebPagePreview();
+            }
             if (replyKeyboardMarkup != null) {
                 sendMessage.setReplyMarkup(replyKeyboardMarkup);
             }
@@ -73,6 +82,18 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
         } catch (Exception e) {
             LOGGER.error("Sending exception", e);
         }
+    }
+
+    @Override
+    public Integer getMembersCount(Long chatId) {
+        try {
+            GetChatMemberCount request = new GetChatMemberCount();
+            request.setChatId(chatId);
+            return getChatMemberCount(request);
+        } catch (Exception e) {
+            LOGGER.error("Get chat count exception", e);
+        }
+        return null;
     }
 
     public void sendPhoto(String fileName, User user, InputStream inputStream) {
