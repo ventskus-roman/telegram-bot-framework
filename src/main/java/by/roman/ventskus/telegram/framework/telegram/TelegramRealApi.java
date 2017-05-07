@@ -15,6 +15,7 @@ import org.telegram.telegrambots.api.objects.Chat;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 import java.io.InputStream;
 
@@ -79,6 +80,9 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
                 sendMessage.setReplyMarkup(replyKeyboardMarkup);
             }
             sendMessage(sendMessage);
+        } catch (TelegramApiRequestException e) {
+            String description = e.getApiResponse();
+            LOGGER.error("Sending exception, descpription: " + description, e);
         } catch (Exception e) {
             LOGGER.error("Sending exception", e);
         }

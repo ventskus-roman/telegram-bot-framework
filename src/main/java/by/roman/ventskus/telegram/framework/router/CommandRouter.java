@@ -7,6 +7,7 @@ import com.vdurmont.emoji.EmojiParser;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.AnnotationUtils;
 
 import javax.annotation.PostConstruct;
 import java.lang.annotation.IncompleteAnnotationException;
@@ -26,12 +27,13 @@ public class CommandRouter {
 
     @PostConstruct
     public void init() {
-        Map<String, Controller> beans = applicationContext.getBeansOfType(Controller.class);
+        //Map<String, Controller> beans = applicationContext.getBeansOfType(Controller.class);
+        Map<String, Object> beans = applicationContext.getBeansWithAnnotation(BotController.class);
         if (beans != null) {
             beans.forEach((key, value) -> {
-                BotController annotation = value.getClass().getDeclaredAnnotation(BotController.class);
+                BotController annotation = AnnotationUtils.findAnnotation(value.getClass(), BotController.class);
                 String mappingValue = annotation.value();
-                mapping.put(mappingValue, value.getClass());
+                mapping.put(mappingValue, (Class<? extends Controller>) value.getClass());
             });
         }
     }
