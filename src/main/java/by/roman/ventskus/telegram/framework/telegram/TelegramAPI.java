@@ -1,10 +1,10 @@
 package by.roman.ventskus.telegram.framework.telegram;
 
-import by.roman.ventskus.telegram.framework.entity.User;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 import java.io.InputStream;
+
+import by.roman.ventskus.telegram.framework.entity.User;
 
 /**
  * Created by Roman Ventskus on 23.04.2016.

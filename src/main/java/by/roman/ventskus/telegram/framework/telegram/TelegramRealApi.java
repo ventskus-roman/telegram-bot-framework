@@ -1,11 +1,5 @@
 package by.roman.ventskus.telegram.framework.telegram;
 
-import by.roman.ventskus.telegram.framework.Framework;
-import by.roman.ventskus.telegram.framework.entity.User;
-import by.roman.ventskus.telegram.framework.entity.request.Request;
-import by.roman.ventskus.telegram.framework.router.CommandRouter;
-import lombok.Getter;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.api.methods.groupadministration.GetChatMemberCount;
@@ -18,6 +12,13 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 import java.io.InputStream;
+
+import by.roman.ventskus.telegram.framework.Framework;
+import by.roman.ventskus.telegram.framework.entity.User;
+import by.roman.ventskus.telegram.framework.entity.request.Request;
+import by.roman.ventskus.telegram.framework.router.CommandRouter;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
@@ -79,7 +80,8 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
             if (replyKeyboardMarkup != null) {
                 sendMessage.setReplyMarkup(replyKeyboardMarkup);
             }
-            sendMessage(sendMessage);
+            sendMessage.validate();
+            execute(sendMessage);
         } catch (TelegramApiRequestException e) {
             String description = e.getApiResponse();
             LOGGER.error("Sending exception, descpription: " + description, e);

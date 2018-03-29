@@ -32,7 +32,7 @@ public class ReplyKeyboardMarkupBuilder {
     }
 
     public ReplyKeyboardMarkupBuilder oneTimeKeyboad() {
-        markup.setOneTimeKeyboad(true);
+        markup.setOneTimeKeyboard(true);
         return this;
     }
 

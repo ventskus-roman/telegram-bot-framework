@@ -6,7 +6,7 @@
 
     <groupId>by.roman.ventskus</groupId>
     <artifactId>telegram-bot-framework</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>2.4.4.5</version>
+            <version>3.6</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
