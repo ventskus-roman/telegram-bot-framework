@@ -2,16 +2,22 @@ package by.roman.ventskus.telegram.framework.telegram;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.telegram.telegrambots.api.methods.GetFile;
 import org.telegram.telegrambots.api.methods.groupadministration.GetChatMemberCount;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Chat;
+import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.api.objects.PhotoSize;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
+import java.io.File;
 import java.io.InputStream;
+import java.util.List;
 
 import by.roman.ventskus.telegram.framework.Framework;
 import by.roman.ventskus.telegram.framework.entity.User;
@@ -38,11 +44,15 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
         Long forwardedChannelId = null;
         String forwardedChannelName = null;
         String forwardedChannelUsername = null;
-        if (update.getMessage() != null) {
-            text = update.getMessage().getText();
-            chatId = update.getMessage().getFrom().getId();
-            username = update.getMessage().getFrom().getUserName();
-            Chat forwardedChannel = update.getMessage().getForwardFromChat();
+        File photo = null;
+        Message message = update.getMessage();
+        if (message != null) {
+            text = message.getText();
+            chatId = message.getFrom().getId();
+            username = message.getFrom().getUserName();
+            List<PhotoSize> photos = message.getPhoto();
+            photo = loadPhoto(photos);
+            Chat forwardedChannel = message.getForwardFromChat();
             if (forwardedChannel != null) {
                 forwardedChannelId = forwardedChannel.getId();
                 forwardedChannelName = forwardedChannel.getTitle();
@@ -53,8 +63,24 @@ public abstract class TelegramRealApi extends TelegramLongPollingBot implements 
             chatId = update.getCallbackQuery().getFrom().getId();
         }
         Request request = new Request(new User(new Long(chatId), username), text, getCommandRouter().isRoute(text), forwardedChannelId,
-                forwardedChannelName, forwardedChannelUsername);
+                forwardedChannelName, forwardedChannelUsername, photo);
         framework.process(request);
+    }
+
+    private File loadPhoto(List<PhotoSize> photos) {
+        if (photos != null && !photos.isEmpty()) {
+            try {
+                PhotoSize lastPhoto = photos.get(photos.size() - 1);
+                GetFile getFileMethod = new GetFile();
+                getFileMethod.setFileId(lastPhoto.getFileId());
+                org.telegram.telegrambots.api.objects.File file = execute(getFileMethod);
+                return this.downloadFile(file.getFilePath());
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return null;
+        }
     }
 
     @Override

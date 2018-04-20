@@ -1,8 +1,9 @@
 package by.roman.ventskus.telegram.framework.entity.request;
 
+import java.io.File;
+
 import by.roman.ventskus.telegram.framework.entity.Command;
 import by.roman.ventskus.telegram.framework.entity.User;
-import by.roman.ventskus.telegram.framework.router.CommandRouter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class Request {
     private Long forwardedChannelId;
     private String forwardedChannelName;
     private String forwardedChannelUsername;
+    private File file;
 
     public Request(User user, String text, Boolean isCommand) {
         this.user = user;
